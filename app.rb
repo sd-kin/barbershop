@@ -40,6 +40,12 @@ post '/visit' do
 @name=params[:name]
 @phone=params[:phone]
 @date=params[:date]
+
+parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
+parameters.each do |key, value|
+if params[key] =='' then @error=parameters[key] end
+end 
+
 file=File.open"public/list.txt", "a"
 file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}\n"
 file.close
