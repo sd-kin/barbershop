@@ -6,18 +6,20 @@
 	<body>
 		<form action="/visit" method="POST">
 		Input you name:
-		<input name="name" type="text">
+		<input name="name" type="text" value="<%= @name %>">
 		
 		
 		
 		Input you phone number:
-		<input name="phone" type="text">
+		<input name="phone" type="text" value="<%= @phone %>" >
 		
 		
 		
 		Input day of visiting:
-		<input type="text" name="date">
+		<input type="text" name="date" value="<%= @date %>" >
 		
 		<button type="submit" > Submit </button>
 		</form>
+		
+		
 	</body>

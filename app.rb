@@ -42,12 +42,11 @@ post '/visit' do
 @date=params[:date]
 
 parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
-parameters.each do |key, value|
-if params[key] =='' then @error=parameters[key] end
-end 
+@error= parameters.select{|k,v| params[k]==''}.values.join(", ") 
+ unless @error=='' then return erb :visit end
 
 file=File.open"public/list.txt", "a"
 file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}\n"
 file.close
-erb :visit
+erb "Waiting for you" 
 end
