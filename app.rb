@@ -1,11 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
-
-
-
-
-
+require 'pony'
 
 
 get '/login' do
@@ -34,6 +30,32 @@ end
 
 get '/contacts' do
 erb :contacts
+end
+
+post '/contacts' do
+@email=params[:email]
+@message=params[:message]
+errors={email: 'email', message: 'message'}
+@error= errors.select{|k,v| params[k]==''}.values.join(", ") + ' is empty'
+@error='' if @error==' is empty'
+ unless @error=='' then return erb :contacts end
+
+ Pony.mail({
+  :to => 'sd-kin@rambler.ru',
+  :via => :smtp,
+  :from => @email,
+  :body => @message,
+  :via_options => {
+    :address              => 'smtp.gmail.com',
+    :port                 => '587',
+    :enable_starttls_auto => true,
+    :user_name            => 'nahuiblia',
+    :password             => 'teamPASS77',
+    :authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
+    :domain               => "localhost.localdomain" # the HELO domain provided by the client to the server
+  } 
+})
+ erb "Message #{@message} sent by #{@email}"
 end
 
 post '/visit' do
