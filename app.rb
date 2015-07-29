@@ -6,6 +6,7 @@ require 'pony'
 
 get '/login' do
   erb :login
+ 
 end
 
 post '/login' do
@@ -62,13 +63,14 @@ post '/visit' do
 @name=params[:name]
 @phone=params[:phone]
 @date=params[:date]
+@barber=params[:barber]
 
 parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
 @error= parameters.select{|k,v| params[k]==''}.values.join(", ") 
  unless @error=='' then return erb :visit end
 
 file=File.open"public/list.txt", "a"
-file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}\n"
+file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}. Your barber is #{@barber}\n"
 file.close
 erb "Waiting for you" 
 end
