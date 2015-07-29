@@ -37,9 +37,9 @@
 		select youre barber
 		
 		<select class="form-control" name="barber">
-		  <option>Walter White</option>
-		  <option>Jessi Pinkman</option>
-		  <option>Goose Heeding</option>
+		  <option <%= @barber=='Walter White' ? 'selected' : ''%> >Walter White</option>
+		  <option <%= @barber=='Jessi Pinkman' ? 'selected' : '' %>>Jessi Pinkman</option>
+		  <option <%= @barber=='Goose Heeding' ? 'selected' : ''%> >Goose Heeding</option>
 		  
 		</select>
 		
