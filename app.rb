@@ -64,13 +64,14 @@ post '/visit' do
 @phone=params[:phone]
 @date=params[:date]
 @barber=params[:barber]
+@color=params[:color]
 
 parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
 @error= parameters.select{|k,v| params[k]==''}.values.join(", ") 
  unless @error=='' then return erb :visit end
 
 file=File.open"public/list.txt", "a"
-file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}. Your barber is #{@barber}\n"
+file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}. Your barber is #{@barber} and color - #{@color}\n"
 file.close
 erb "Waiting for you" 
 end

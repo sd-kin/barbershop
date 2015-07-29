@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 
 	<head>
+	<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+	<script language="javascript" type="text/javascript" src="really-simple-color-picker\js\jquery.colorPicker.min.js"/></script>
+	
+		<script type="text/javascript">
+  //Run the code when document ready
+  $(function() {    
+   
+   
+   $('#color1').colorPicker();
+
+
+  });
+</script>
+
+
 	</head>
 	
 	<body>
@@ -26,6 +42,16 @@
 		  <option>Goose Heeding</option>
 		  
 		</select>
+		
+		Select color:
+		
+		 <div>
+<label for="color1">Color 1</label>
+		 <input id="color1" type="text" name="color" value="#333399" />
+		 </div>
+		 
+		
+		
 		
 		<button type="submit" > Submit </button>
 		</form>
