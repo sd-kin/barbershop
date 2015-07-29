@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 
 	<head>
+	<link href="/jquery.datetimepicker.css" rel="stylesheet">
 	<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
 	<script language="javascript" type="text/javascript" src="really-simple-color-picker\js\jquery.colorPicker.min.js"/></script>
-	
+	<script src="/jquery.datetimepicker.js"></script>
 		<script type="text/javascript">
   //Run the code when document ready
   $(function() {    
    
    
    $('#color1').colorPicker();
+   $('#datetimepicker').datetimepicker();
 
 
   });
 </script>
+
+
 
 
 	</head>
@@ -32,7 +36,7 @@
 		
 		
 		Input day of visiting:
-		<input type="text" name="date" value="<%= @date %>" >
+		<input type="text" name="date" id="datetimepicker" value="<%= @date %>" >
 		
 		select youre barber
 		
