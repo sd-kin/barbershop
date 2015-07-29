@@ -5,8 +5,8 @@ require 'pony'
 require 'sqlite3'
 
 configure do
-@db= SQLite3::Database.new 'database.db'
-@db.execute 'CREATE TABLE IF NOT EXISTS "users"
+db=get_db
+db.execute 'CREATE TABLE IF NOT EXISTS "users"
 				("id" INTEGER PRIMARY KEY AUTOINCREMENT,
 				"username" TEXT,
 				"phone" TEXT,
@@ -78,12 +78,21 @@ post '/visit' do
 @barber=params[:barber]
 @color=params[:color]
 
+
+
 parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
 @error= parameters.select{|k,v| params[k]==''}.values.join(", ") 
  unless @error=='' then return erb :visit end
-
+@values = []
+@values<<@name<<@phone<<@date<<@barber<<@color
+ db = get_db 
+ db.execute 'insert into users (username, phone, datestamp, barber, color) values(?, ?, ?, ?, ?)',@values
 file=File.open"public/list.txt", "a"
 file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}. Your barber is #{@barber} and color - #{@color}\n"
 file.close
 erb "Waiting for you" 
+end
+
+def get_db 
+return SQLite3::Database.new 'database.db'
 end
