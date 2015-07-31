@@ -5,7 +5,7 @@ require 'pony'
 require 'sqlite3'
 
 configure do
-db=get_db
+db=SQLite3::Database.new 'database.db'
 db.execute 'CREATE TABLE IF NOT EXISTS "users"
 				("id" INTEGER PRIMARY KEY AUTOINCREMENT,
 				"username" TEXT,
@@ -30,10 +30,9 @@ end
 
 get '/showusers' do
   db=get_db
-  @all_rows=[]
-  db.execute'SELECT * FROM users' do |row|
-  @all_rows<<row || 'fuckin nothing'
-  end
+  db.results_as_hash=true
+  
+  @results=db.execute'SELECT * FROM users' 
   
   erb :showusers
  
@@ -49,6 +48,7 @@ erb :about
 end
 
 get '/visit' do
+
 erb :visit
 end
 
@@ -98,12 +98,13 @@ parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
 @values<<@name<<@phone<<@date<<@barber<<@color
  db = get_db 
  db.execute 'insert into users (username, phone, datestamp, barber, color) values(?, ?, ?, ?, ?)',@values
-file=File.open"public/list.txt", "a"
-file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}. Your barber is #{@barber} and color - #{@color}\n"
-file.close
+#file=File.open"public/list.txt", "a"
+#file<<"#{@name} wont to visit you at #{@date}, phon  number - #{@phone}. Your barber is #{@barber} and color - #{@color}\n"
+#file.close
 erb "Waiting for you" 
 end
 
 def get_db 
 return SQLite3::Database.new 'database.db'
 end
+
