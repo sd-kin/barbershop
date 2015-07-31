@@ -4,6 +4,14 @@ require 'sinatra/reloader'
 require 'pony'
 require 'sqlite3'
 
+def get_db 
+return SQLite3::Database.new 'database.db'
+end
+
+def barber_exists? db, name
+db.execute('SELECT * FROM barbers WHERE barber=?', [name]).length>0
+end
+
 configure do
 db=SQLite3::Database.new 'database.db'
 db.execute 'CREATE TABLE IF NOT EXISTS "users"
@@ -14,6 +22,14 @@ db.execute 'CREATE TABLE IF NOT EXISTS "users"
 				"barber" TEXT,
 				"color" TEXT
 				)'
+db.execute'CREATE TABLE IF NOT EXISTS "barbers" (
+    "id"     INTEGER PRIMARY KEY AUTOINCREMENT,
+    "barber" TEXT 
+)'	
+barbers = ['Walter White', 'Jessi Pinkman', 'Goose Hedding', 'Tom Cruse']	
+barbers.each do |barber|
+db.execute'insert into barbers(barber) values(?)', barber unless barber_exists? db, barber
+end 	
 end
 
 get '/login' do
@@ -30,9 +46,9 @@ end
 
 get '/showusers' do
   db=get_db
-  db.results_as_hash=true
+  #db.results_as_hash=true
   
-  @results=db.execute'SELECT * FROM users' 
+  @results=db.execute'SELECT * FROM users ORDER BY id DESC' 
   
   erb :showusers
  
@@ -48,7 +64,8 @@ erb :about
 end
 
 get '/visit' do
-
+base=get_db
+@barbers=base.execute'select * from barbers'
 erb :visit
 end
 
@@ -104,7 +121,5 @@ parameters = {name: 'input name', phone: 'input phone', date: 'input date'}
 erb "Waiting for you" 
 end
 
-def get_db 
-return SQLite3::Database.new 'database.db'
-end
+
 

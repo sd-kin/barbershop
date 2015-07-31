@@ -41,10 +41,11 @@
 		select youre barber
 		
 		<select class="form-control" name="barber">
-		  <option <%= @barber=='Walter White' ? 'selected' : ''%> >Walter White</option>
-		  <option <%= @barber=='Jessi Pinkman' ? 'selected' : '' %>>Jessi Pinkman</option>
-		  <option <%= @barber=='Goose Heeding' ? 'selected' : ''%> >Goose Heeding</option>
+		  <% @barbers.each do |barber|%>
 		  
+		  <option <%= @barber==barber[1] ? 'selected' : ''%> ><%= barber[1] %></option>
+		  
+		  <%end%>
 		</select>
 		
 		
