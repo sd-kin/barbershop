@@ -12,6 +12,11 @@ def barber_exists? db, name
 db.execute('SELECT * FROM barbers WHERE barber=?', [name]).length>0
 end
 
+before '/visit' do
+base=get_db
+@barbers=base.execute'select * from barbers'
+end
+
 configure do
 db=SQLite3::Database.new 'database.db'
 db.execute 'CREATE TABLE IF NOT EXISTS "users"
@@ -64,8 +69,6 @@ erb :about
 end
 
 get '/visit' do
-base=get_db
-@barbers=base.execute'select * from barbers'
 erb :visit
 end
 
